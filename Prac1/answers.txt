@@ -1,0 +1,15 @@
+Question 4.
+Breifly explain:
+man - access the manual
+ls - list the files in the current or specified directory (option -l)
+mkdir - make and directory
+cd - change the current directory
+cp - copy the specified file
+mv - move a file to a new file and deleting the old (renaming)
+rm - remove file
+pwd - show current directory
+cat - show contents of file all at once. concatinate files -n for numbers
+more - show contents of text file to screen in segments
+cc - C complier used to compile o code
+
+

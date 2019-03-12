@@ -1,0 +1,6 @@
+ask the user to input a number
+get a number from user
+minus 32 from the number
+multiple the result by 5
+divide the result by 9
+print the result to screen
