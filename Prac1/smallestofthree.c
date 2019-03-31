@@ -2,18 +2,19 @@
 
 int main()
 {
-    int smallestNumber = 99999;
-    int enteredNumber;
+    int nums[3]; 
+    printf("\n Enter 3 numbers  : ");
+    scanf("%d %d %d", &nums[0], &nums[1], &nums[2]);
     int i;
-    for ( i = 1 ; i <= 3; i++)
+    int smallestNumber = nums[0];
+    for ( i = 1 ; i < 3; i++)
     {
-	printf("\n Enter number %d : ", i);
-	scanf("%d", &enteredNumber);
-	if (enteredNumber < smallestNumber)
+	
+	if(nums[i] < smallestNumber)
 	{
-	    smallestNumber = enteredNumber;
-	}	
-
+		smallestNumber = nums[i];	 
+        }
+	 
     }
     printf("The Smallest Number is : %d \n" , smallestNumber);
 }

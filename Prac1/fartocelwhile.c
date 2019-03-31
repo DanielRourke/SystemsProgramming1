@@ -14,5 +14,5 @@
      cel=5*(fah-32)/9;
      printf("%d\t%d\n", fah, cel);
      fah=fah+step;
-   }while(far<=upper);
+   }while(fah<=upper);
  }

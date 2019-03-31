@@ -1,0 +1,7 @@
+Make a node pointer called head and point to NULL
+Start Loop
+make new node object
+set the data of the node object
+set the *next pointer to be = head pointer
+set head pointer to be the address of the object
+repeat loop
