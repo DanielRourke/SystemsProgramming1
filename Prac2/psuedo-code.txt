@@ -5,3 +5,15 @@ set the data of the node object
 set the *next pointer to be = head pointer
 set head pointer to be the address of the object
 repeat loop
+
+
+
+
+
+
+allocate previous
+
+make a new pointer to next
+previous .d
+previous p to next
+previous = next
