@@ -14,7 +14,7 @@ typedef   struct  stack  ELEMENT;
 typedef   ELEMENT  *POINTER;
 
 void push(POINTER *Top, stackitem a);
-stackitem pop(POINTER *Top);
+void pop(POINTER *Top);
 void push_string(POINTER *Top, char *string);
 void print_stack(POINTER Top);
 void delete_stack(POINTER *Top);
@@ -70,8 +70,11 @@ void print_stack(POINTER Top)
 /*Print the contents of the stack. Do not modify the stack in any way. */
 	{
 		printf("Start printing the stack ...\n");
-
-		/*insert you code here */
+    while(Top != NULL)
+    {
+        printf(" %d ,", Top->d);
+        Top = Top->next;
+    }
 
 	}
 
@@ -79,8 +82,13 @@ void delete_stack(POINTER *Top)
 /* Delete the stack, i.e. remove all items from the stack */
 	{
 		printf("Start deleting the stack...\n");
+		while(Top != NULL)
+    {
+			POINTER ptr = Top;
+			free(ptr);
+			Top = 
 
-		/*insert you code here */
+    }
 
 	}
 
