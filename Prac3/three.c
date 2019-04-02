@@ -69,12 +69,14 @@ void pop(POINTER *Top)
 void print_stack(POINTER Top)
 /*Print the contents of the stack. Do not modify the stack in any way. */
 	{
+		
 		printf("Start printing the stack ...\n");
     while(Top != NULL)
     {
-        printf(" %d ,", Top->d);
+        printf(" %c ,", Top->d);
         Top = Top->next;
     }
+		printf("\n");
 
 	}
 
@@ -84,10 +86,7 @@ void delete_stack(POINTER *Top)
 		printf("Start deleting the stack...\n");
 		while(Top != NULL)
     {
-			POINTER ptr = Top;
-			free(ptr);
-			Top = 
-
+				pop(Top);
     }
 
 	}
@@ -96,6 +95,11 @@ void push_string(POINTER *Top,char *string)
 /* Push a string of characters into a stack. */
 	{
 		printf("Start inserting the string ...\n");
+		while(*string != '\0')
+		{
+				push(Top, *string);
+				string++;
+		}
 
 		/*insert you code here */
 	}
