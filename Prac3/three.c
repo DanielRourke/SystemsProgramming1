@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 		stackitem A='A';
 		stackitem B='B';
 		char *C="12345";
-		//printf("C is %s\n", C);
+	//	printf("C is %s\n", C);
 		push(&top,A);
 		push(&top,B);
 		print_stack(top);
@@ -56,14 +56,17 @@ void pop(POINTER *Top)
 /* Remove the top item */
      {
 		POINTER Top1 = *Top;
-		if (Top != NULL)
-		{
-		  *Top = Top1->next;
-		  printf("Remove element %c\n", Top1->d);
-		  free(Top1);
-		}
-		else
-		  printf("Empty stack.\n");
+				if (Top != NULL)
+				{
+					*Top = Top1->next;
+					printf("Remove element %c\n", Top1->d);
+					free(Top1);
+				}
+				else
+				{
+					printf("Empty stack.\n");
+				}
+					
      }
 
 void print_stack(POINTER Top)
@@ -84,7 +87,8 @@ void delete_stack(POINTER *Top)
 /* Delete the stack, i.e. remove all items from the stack */
 	{
 		printf("Start deleting the stack...\n");
-		while(Top != NULL)
+	
+		while(*Top != NULL)
     {
 				pop(Top);
     }
