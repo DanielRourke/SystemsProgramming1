@@ -1,0 +1,140 @@
+      //     
+
+    //        var hsvImage = image.Convert<Hsv, byte>();
+        //    var hsvBackground = background.Convert<Hsv, byte>();
+
+            // static subtract of background
+          //  var mask = image.AbsDiff(background).Convert<Gray,Byte>();
+       //     var hsvMask = hsvImage.AbsDiff(hsvBackground).Convert<Gray, Byte>();
+
+            mask = mask.SmoothGaussian(5, 5, 1.5, 1.5);
+            mask = mask.ThresholdBinary(threshold, max);
+
+            //    hsvMask = mask.SmoothGaussian(3, 3, 1.5, 1.5);
+            //    hsvMask = mask.ThresholdBinary(threshold, max);
+
+            Emgu.CV.Image<Gray, byte> maskAddition = mask;
+
+
+            Emgu.CV.Image<Gray, byte> maskDilate;
+            Emgu.CV.Image<Gray, byte> maskOpen;
+            Emgu.CV.Image<Gray, byte> maskClose;
+
+            //     Emgu.CV.Image<Gray, byte> maskAddition = mask;
+
+            // standard should be set 3 dilate and 4 erode
+            //makes a mask with holes and correct border(shows entire person with holes)
+            //     maskAddition = maskAddition.Dilate(4);
+            //     maskAddition = maskAddition.Erode(3);
+
+
+            ////make a mask with no holes and a giant border(shows entire person plus outside border)
+            //maskDilate = maskAddition;
+            //maskDilate = maskDilate.Erode(1);
+            //maskDilate = maskDilate.Dilate(45);
+
+            ////make a mask with no holes and a tiny border(does not show entire person but has no holes)
+            //maskErode = maskAddition;
+            //maskErode = maskErode.Erode(1);
+            //maskErode = maskErode.Dilate(30);
+            //maskErode = maskErode.Erode(40);
+
+            ////extra border, using mask with tiny border as mask)
+            //CvInvoke.Add(maskAddition, maskErode, maskAddition, maskErode);
+
+
+            System.Drawing.Point pint  = new System.Drawing.Point(-1, -1);
+            Mat kernel = CvInvoke.GetStructuringElement(Emgu.CV.CvEnum.ElementShape.Rectangle, new System.Drawing.Size(7, 7), pint);
+         
+
+
+
+
+            //   Image<Gray, byte> imgOutput = image.Convert<Gray, byte>().ThresholdBinary(new Gray(100), new Gray(255));
+            //    Emgu.CV.Util.VectorOfVectorOfPoint contours = new Emgu.CV.Util.VectorOfVectorOfPoint();
+            //   Mat hier = new Mat();
+
+            //     Image<Gray, byte> imgout = new Image<Gray, byte>(image.Width, image.Height, new Gray(0));
+
+            //    CvInvoke.FindContours(imgOutput, contours, hier, Emgu.CV.CvEnum.RetrType.List, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxTc89Kcos);
+
+            //    CvInvoke.DrawContours(mask, contours, -1, new MCvScalar(255, 255, 0), 10);
+
+            ////depth Frame Differencing////////////////////////////////////////////////////////////////////////////
+            //var depthFrameMask = depth.AbsDiff(backgroundDepth).SmoothGaussian(3, 3, 1.5, 1.5).ThresholdBinary(new Gray(thresholdStaticDepth), max);
+            ////subtract of depth
+            var depthDistanceMask = depth.ThresholdBinary(thresholdDepth, max);
+            ////make blank mask
+            //var depthMask = depthFrameMask.CopyBlank();
+            //Add depth Frames together
+            //    CvInvoke.Add(depthMask, depthFrameMask, depthMask, depthDistanceMask);
+
+            //adds Colour Mask to Depth Mask
+            //    mask = mask.Copy(depthMask);
+            //  CvInvoke.Add(mask, depthMask, mask);
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            maskBox.Invoke((MethodInvoker)delegate
+            {
+                maskBox.Image = mask;
+            });
+
+
+            //   CvInvoke.Add(depthDistanceMask, mask,  mask);
+                mask = mask.Copy(depthDistanceMask);
+            Emgu.CV.Image<Gray, byte> maskErode = mask;
+            //sets image is Mask Box to the colour Mask
+            maskErode = maskErode.Erode(1);
+            ///morphologic operators
+            ///
+            if (this.dilate > 0)
+            {
+                maskErode = maskErode.Dilate(this.dilate);
+            }
+            if (this.erode > 0)
+            {
+                maskErode = maskErode.Erode(this.erode);
+            }
+
+
+
+            maskClose = mask;
+            maskClose = maskClose.Erode(1);
+            maskClose = maskClose.Convert<Gray, byte>().MorphologyEx(Emgu.CV.CvEnum.MorphOp.Close, kernel, pint, thresholdStaticDepth, Emgu.CV.CvEnum.BorderType.Default, new MCvScalar(1.0));
+            maskClose = maskClose.Erode(this.erode);
+
+            depthBox.Invoke((MethodInvoker)delegate
+            {
+                if (cannySettings.Visible)
+                {
+         //           depthBox.Image = image.Copy(maskDilate).SmoothMedian(3).Canny((double)cannySettings.MaxThresholdTrack.Value, (double)cannySettings.ConnectingThresholdTrack.Value);
+                }
+                else if (this.DilateMask.Checked)
+                {
+               //     depthBox.Image = image.Copy(maskDilate);
+                }
+                else if (this.ErodeMask.Checked)
+                {
+                   // CvInvoke.Add(mask, maskErode, maskErode);
+                 //     maskErode = maskErode.Copy(mask);
+                  //  depthBox.Image = image.Copy(maskErode);
+                    CvInvoke.BitwiseOr(mask, maskErode, maskErode);
+                    depthBox.Image = maskErode;
+
+                  
+                }
+                else if (this.AdditionMask.Checked)
+                {
+           //         depthBox.Image = image.Copy(maskAddition);
+                }
+                else if (this.CloseMask.Checked)
+                {
+                 //   CvInvoke.Add(mask, maskClose, mask);
+                    depthBox.Image = image.Copy(maskClose);
+                }
+                else
+                {
+                   
+                       depthBox.Image = image.Copy(depthDistanceMask);
+                }
+                
+            }); 
