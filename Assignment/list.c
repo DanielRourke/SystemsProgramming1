@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     priority C = 33;
     priority D = 11;
    // char *C = "12345";
-    //	printf("C is %s\n", C);
+   //	printf("C is %s\n", C);
     push(&top, A, "A");
     push(&top, B, "B");
     push(&top, C, "C");
@@ -153,7 +153,7 @@ void sort(POINTER *head, enum order ord)
         }
         current = current->link;
     }
-     printf("\n");
+    printf("\n");
 }
 // void push_string(POINTER *Top,char *string)
 // /* Push a string of characters into a stack. */
