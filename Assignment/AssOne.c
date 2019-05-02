@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "stdlib.h"
+#include "time.h"
 
 #define FILLERSIZE 100
 
@@ -27,35 +28,50 @@ void print_list(POINTER head);
 void pop_front(POINTER* head);
 void swap2(POINTER prevOfA, POINTER prevOfB);
 void sort_list(POINTER* head);
-
+void sort_list_bubble(POINTER* header);
+void build_list(POINTER* head, int size);
 
 int main(int argc, char *argv[])
 {
+    srand(time(0));
     POINTER Head;
     Head = (POINTER) 0;
     priority A = 5;
     priority B = 12;
     priority C = 33;
     priority D = 11;
-    push_front(&Head, A, "A");
-    push_front(&Head, B, "B");
-    push_front(&Head, C, "C");
-    push_front(&Head, D, "D");
-    
+    // push_front(&Head, A, "A");
+    // push_front(&Head, B, "B");
+    // push_front(&Head, C, "C");
+    // push_front(&Head, D, "D");
+    build_list(&Head, 20);
     print_list(Head);
-    sort_list(&Head);
+    sort_list_bubble(&Head);
+   // sort_list_bubble(&Head);
     //swap2(Head, Head->link);
    // swap(&Head , &Head->link, &Head->link->link);
    // sort(&Head, Accending);
     print_list(Head);
-    sort_list(&Head);
-    print_list(Head);
-    sort_list(&Head);
-    print_list(Head);
+
     return 1;
 }
 
-
+void build_list(POINTER* head, int size)
+{
+    int i;
+    for(i = 0; i < size; i++)
+    {
+        int pri = rand() % size + 1;
+        int j;
+        char str[FILLERSIZE];
+        for(j =0; j <pri ;j++)
+        {
+            str[j] = 'A' + ((char) rand()% 26);
+        }
+       // str[0] = 'A';
+        push_front(head, pri , str);
+    }
+}
 
 void push_front(POINTER* head, priority p, char f[FILLERSIZE])
 /* Put item a into the front of the list */
@@ -65,14 +81,15 @@ void push_front(POINTER* head, priority p, char f[FILLERSIZE])
     POINTER temp = malloc(sizeof(IORB));
     temp->base_pri = p;
     //when you pass an char array it becomes char array pointer to first point
-    int i = 0;
-    while(*f != '\0')
-    {
-       temp->filler[i] = *f;
-        i++;
-        *f++;
-    } 
-    temp->filler[i]= '\0';
+    // int i = 0;
+    // while(*f != '\0')
+    // {
+    //    temp->filler[i] = *f;
+    //     i++;
+    //     *f++;
+    // } 
+    // temp->filler[i]= '\0';
+    *temp->filler = *f;
     temp->link = *head;
     *head = temp;
     printf("Insert element front %d %p %s\n", temp->base_pri ,
@@ -104,7 +121,7 @@ void print_list(POINTER head)
     printf("Start printing the stack ...\n");
     while (head != NULL)///////////////error empy or not nulld ?
     {
-        printf(" %d ,", head->base_pri);
+        printf(" %d ; %s,", head->base_pri, head->filler);
         head = head->link;
     }
     printf("\n");
@@ -159,7 +176,48 @@ void pop_front(POINTER* head)
 //     //B points to D
 //     previous->link = D;
 // }
+void sort_list_bubble(POINTER* header)
+{
+    POINTER* current;
+    POINTER* first;
+    POINTER* second;
+    int itemsSwaped;
+    //loop list until sorted
+    do
+    {
+        current = header;
+        first = &(*current)->link;
+        second = &(*first)->link;
+        itemsSwaped = 0;
+        //loop through list
+        while((*first) != NULL)
+        {
+            first = &(*current)->link;
+            second = &(*first)->link;
 
+            if((*current)->base_pri > (*first)->base_pri)
+            {
+                swap(current,first,second);
+                current = second;
+                itemsSwaped +=1;
+         
+            }
+            else
+            {
+                current = first;
+            }
+
+            first = &(*current)->link;
+            second = &(*first)->link;
+        }
+
+       
+
+    }while(itemsSwaped != 0);
+    
+
+
+}
 
 void sort_list(POINTER* header)
 /*Print the contents of the stack. Do not modify the stack in any way. */
@@ -209,7 +267,7 @@ void sort_list(POINTER* header)
 
     first = &(*current)->link;
     second = &(*first)->link;
-  printf(" first will be %s second will be %s \n ", (*first)->filler, (*second)->filler);
+    printf(" first will be %s second will be %s \n ", (*first)->filler, (*second)->filler);
 
     if((*current)->base_pri > (*first)->base_pri)
     {
@@ -300,13 +358,6 @@ void sort_list(POINTER* header)
     
 }
 
-void new_swap(POINTER* prevA, POINTER* prevB)
-{
-
-
-
-}
-
 
 void swap(POINTER* H, POINTER* A, POINTER* B)
 {
@@ -314,16 +365,19 @@ void swap(POINTER* H, POINTER* A, POINTER* B)
     POINTER a = *H;
     POINTER b = *A;
     POINTER c = *B;
-    printf(" a %p b %p c %p, \n", *H, *A, *B);
-    // printf(" a %p b %p c %p,\n", a, b, c);
-    // printf(" a %s b %s c %s,\n", a->filler, b->filler, c->filler);
-    // printf(" a %p b %p c %p,\n", a->link, b->link, c->link);
- 
     *H = b;
     *A = c;
     *B = a;
 
-    printf(" a %p b %p c %p, \n", *H, *A, *B);
+
+  //  printf(" a %p b %p c %p, \n", *H, *A, *B);
+    // printf(" a %p b %p c %p,\n", a, b, c);
+    // printf(" a %s b %s c %s,\n", a->filler, b->filler, c->filler);
+    // printf(" a %p b %p c %p,\n", a->link, b->link, c->link);
+ 
+
+
+  //  printf(" a %p b %p c %p, \n", *H, *A, *B);
     // printf(" a %p b %p c %p,\n", a, b, c);
     // printf(" a %s b %s c %s,\n", a->filler, b->filler, c->filler);
     // printf(" a %p b %p c %p,\n", a->link, b->link, c->link);
