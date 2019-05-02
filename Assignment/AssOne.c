@@ -61,13 +61,14 @@ void build_list(POINTER* head, int size)
     int i;
     for(i = 0; i < size; i++)
     {
-        int pri = rand() % size + 1;
+        int pri = rand() % size +1;
         int j;
         char str[FILLERSIZE];
-        for(j =0; j <pri ;j++)
+        for(j =0; j < pri ;j++)
         {
-            str[j] = 'A' + ((char) rand()% 26);
+            str[j] = 'A' +  rand()% 26;
         }
+        str[pri] = '\0';
        // str[0] = 'A';
         push_front(head, pri , str);
     }
@@ -81,15 +82,15 @@ void push_front(POINTER* head, priority p, char f[FILLERSIZE])
     POINTER temp = malloc(sizeof(IORB));
     temp->base_pri = p;
     //when you pass an char array it becomes char array pointer to first point
-    // int i = 0;
-    // while(*f != '\0')
-    // {
-    //    temp->filler[i] = *f;
-    //     i++;
-    //     *f++;
-    // } 
-    // temp->filler[i]= '\0';
-    *temp->filler = *f;
+    int i = 0;
+    while(*f != '\0')
+    {
+       temp->filler[i] = *f;
+        i++;
+        *f++;
+    } 
+    temp->filler[i]= '\0';
+    //*temp->filler = *f;
     temp->link = *head;
     *head = temp;
     printf("Insert element front %d %p %s\n", temp->base_pri ,
