@@ -48,6 +48,10 @@ int main(int argc, char *argv[])
    // swap(&Head , &Head->link, &Head->link->link);
    // sort(&Head, Accending);
     print_list(Head);
+    sort_list(&Head);
+    print_list(Head);
+    sort_list(&Head);
+    print_list(Head);
     return 1;
 }
 
@@ -246,6 +250,9 @@ void sort_list(POINTER* header)
     {
         current = first;
     }
+
+
+   
 
 
   //printf(" first will be %p second will be %p ", &(*current)->link, &(*first)->link);
