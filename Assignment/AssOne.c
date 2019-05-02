@@ -26,7 +26,7 @@ void sort(POINTER *head, enum order ord);
 void print_list(POINTER head);
 void pop_front(POINTER* head);
 void swap2(POINTER prevOfA, POINTER prevOfB);
-void sort_list(POINTER head);
+void sort_list(POINTER* head);
 
 
 int main(int argc, char *argv[])
@@ -41,8 +41,10 @@ int main(int argc, char *argv[])
     push_front(&Head, B, "B");
     push_front(&Head, C, "C");
     push_front(&Head, D, "D");
-    sort_list(Head);
+    
     print_list(Head);
+    sort_list(&Head);
+    //swap2(Head, Head->link);
    // swap(&Head , &Head->link, &Head->link->link);
    // sort(&Head, Accending);
     print_list(Head);
@@ -155,18 +157,147 @@ void pop_front(POINTER* head)
 // }
 
 
-void sort_list(POINTER head)
+void sort_list(POINTER* header)
 /*Print the contents of the stack. Do not modify the stack in any way. */
 {
-    
-   
-    POINTER* first = &head;
-    POINTER* second = &head->link;
-    POINTER* third = &head->link->link;
+
  
-    swap(&head, &head->link, &head->link->link);
+//     POINTER* top = header;
+    
+//     POINTER* current;
 
     
+//     //  POINTER temp = *top;
+//     //  *top = temp->link;
+
+//     current = top;
+
+//     POINTER curr;
+//     curr = *current;
+
+//     POINTER* first = &curr->link;
+//     curr = *first;
+//     POINTER* second = &curr->link;
+
+
+
+  
+//    // swap(current,first,second);
+    
+//     current = first;
+   
+//     curr = *current;
+
+//     first = &curr->link;
+//     curr = *first;
+//     second = &curr->link;
+
+
+//      swap(current, first,second);
+
+
+//------------------------------------------------
+
+    POINTER* current = header;
+    POINTER* first;
+    POINTER* second;
+
+
+    first = &(*current)->link;
+    second = &(*first)->link;
+  printf(" first will be %s second will be %s \n ", (*first)->filler, (*second)->filler);
+
+    if((*current)->base_pri > (*first)->base_pri)
+    {
+        swap(current,first,second);
+        current = second;
+    }
+    else
+    {
+        current = first;
+    }
+
+  
+    first = &(*current)->link;
+    second = &(*first)->link;
+   
+
+
+    if((*current)->base_pri > (*first)->base_pri)
+    {
+        swap(current,first,second);
+        current = second;
+    }
+    else
+    {
+        current = first;
+    }
+
+
+    first = &(*current)->link;
+    second = &(*first)->link;
+   
+    if((*current)->base_pri > (*first)->base_pri)
+    {
+        swap(current,first,second);
+        current = second;
+    }
+    else
+    {
+        current = first;
+    }
+
+
+  //printf(" first will be %p second will be %p ", &(*current)->link, &(*first)->link);
+
+    // first = &(*current)->link;
+    // second = &(*first)->link;
+
+
+    //     if ((*second) == NULL)
+    // {
+    //     printf("null");
+    // }
+    // else
+    // {
+
+    //      printf(" first will be %s second will be %s \n ", (*first)->filler, (*second)->filler);
+    //         if((*current)->base_pri > (*first)->base_pri)
+    //         {
+    //             swap(current,first,second);
+    //             current = second;
+    //         }
+    //         else
+    //         {
+    //             current = first;
+    //         }
+    // }
+
+
+  
+    // current = first;
+   
+    // curr = *current;
+
+    // first = &curr->link;
+    // curr = *first;
+    // second = &curr->link;
+
+
+    //  swap(current, first,second);
+
+
+
+
+
+    
+}
+
+void new_swap(POINTER* prevA, POINTER* prevB)
+{
+
+
+
 }
 
 
@@ -176,7 +307,7 @@ void swap(POINTER* H, POINTER* A, POINTER* B)
     POINTER a = *H;
     POINTER b = *A;
     POINTER c = *B;
-    // printf(" a %p b %p c %p, \n", *H, *A, *B);
+    printf(" a %p b %p c %p, \n", *H, *A, *B);
     // printf(" a %p b %p c %p,\n", a, b, c);
     // printf(" a %s b %s c %s,\n", a->filler, b->filler, c->filler);
     // printf(" a %p b %p c %p,\n", a->link, b->link, c->link);
@@ -185,7 +316,7 @@ void swap(POINTER* H, POINTER* A, POINTER* B)
     *A = c;
     *B = a;
 
-    // printf(" a %p b %p c %p, \n", *H, *A, *B);
+    printf(" a %p b %p c %p, \n", *H, *A, *B);
     // printf(" a %p b %p c %p,\n", a, b, c);
     // printf(" a %s b %s c %s,\n", a->filler, b->filler, c->filler);
     // printf(" a %p b %p c %p,\n", a->link, b->link, c->link);
