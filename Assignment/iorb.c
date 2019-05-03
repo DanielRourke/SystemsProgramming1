@@ -1,55 +1,17 @@
-#include "stdio.h"
-#include "stdlib.h"
-#include "time.h"
-
-#define FILLERSIZE 100
-
-typedef int priority;
-
-typedef struct iorb
-{
-    priority base_pri;
-    struct iorb *link;
-    char filler[FILLERSIZE];
-}IORB;
-
-typedef IORB *POINTER;
-
-
-enum order{Accending , Decending};
-void push_front(POINTER *head, priority p, char f[FILLERSIZE]);
-void swap(POINTER* A, POINTER* B, POINTER* C);
-void print_list(POINTER head);
-void pop_front(POINTER* head);
-void sort_list_bubble(POINTER* header, int(*calc_pri)(POINTER first, POINTER second));
-void build_list(POINTER* head, int size);
-int calc_pri_accending(POINTER first, POINTER second);
-
-int main(int argc, char *argv[])
-{
-
-    //check user input 
-    srand(time(0));
-    POINTER Head;
-    Head = (POINTER) 0;
-    build_list(&Head, 20);
-    print_list(Head);
-    sort_list_bubble(&Head , calc_pri_accending );
-    print_list(Head);
-
-    return 1;
-}
+#include "iorb.h"
+#include "assert.h"
 
 void build_list(POINTER* head, int size)
 /*Build the list with random filler and base priority*/
 {
+    assert(size > 0);
     int i;
     for(i = 0; i < size; i++)
     {
-        int pri = rand() % size +1;
+        int pri = (rand() % size) % FILLERSIZE + 1;
         int j;
         char str[FILLERSIZE];
-        for(j =0; j < pri ;j++)
+        for(j = 0; j < pri ;j++)
         {
             str[j] = 'A' +  rand()% 26;
         }
@@ -62,8 +24,14 @@ void push_front(POINTER* head, priority p, char f[FILLERSIZE])
 /* Put item a into the front of the list */
 /* Push a string of characters into a list. */
 {
-    
+    assert(p > 0);
+    assert(f != NULL);
+
     POINTER temp = malloc(sizeof(IORB));
+    if(temp == NULL)
+    {
+        perror("out of memory");
+    }
     temp->base_pri = p;
     //when you pass an char array it becomes char array pointer to first point
     int i = 0;
@@ -74,7 +42,6 @@ void push_front(POINTER* head, priority p, char f[FILLERSIZE])
         *f++;
     } 
     temp->filler[i]= '\0';
-    //*temp->filler = *f;
     temp->link = *head;
     *head = temp;
     printf("Insert element front %d %p %s\n", temp->base_pri ,
@@ -85,7 +52,7 @@ void print_list(POINTER head)
 /*Print the contents of the list. Does not modify the list in any way. */
 {
 
-    printf("Start printing the stack ...\n ");
+    printf("Start printing the List ...\n ");
     while (head != NULL)
     {
         printf("| %d - %s | \n ", head->base_pri, head->filler );
@@ -95,23 +62,22 @@ void print_list(POINTER head)
 }
 
 void delete_list(POINTER *head)
-/* Delete the stack, i.e. remove all items from the stack */
+/* Delete the list, i.e. remove all items from the List */
 {
-    //check for error
-    printf("Start deleting the stack...\n");
+    printf("Start deleting the List...\n");
 
     while (*head != NULL)
     {
         pop_front(head);
     }
 
-    printf("The Stack in now Empty.\n");
+    printf("The List in now Empty.\n");
 }
 
 void pop_front(POINTER* head)
 /* Remove the top item */
 {
-    ///check errors 
+    
     POINTER current = *head;
     if (*head != NULL)
     {
@@ -127,7 +93,7 @@ void pop_front(POINTER* head)
 
 void sort_list_bubble(POINTER* header, int(*calc_pri)(POINTER, POINTER))
 {
-    //validate the list size is atleast 2
+    assert(*header != NULL);
     POINTER* previous;
     POINTER* first;
     POINTER* second;
@@ -137,8 +103,11 @@ void sort_list_bubble(POINTER* header, int(*calc_pri)(POINTER, POINTER))
     {
         previous = header;
         first = &(*previous)->link;
+        assert(first != NULL);
         second = &(*first)->link;
+        assert(second != NULL);
         itemsSwaped = 0;
+        
         //loop through list
         while((*first) != NULL)
         {
@@ -164,8 +133,12 @@ void sort_list_bubble(POINTER* header, int(*calc_pri)(POINTER, POINTER))
 }
 
 void swap(POINTER* H, POINTER* A, POINTER* B)
+//Swap the position of A and B
 {
-    //check that h a are not null and b link is not null
+    //check that h a are not null
+    assert(*H != NULL);
+    assert((*H)->link != NULL);
+    assert(*A != NULL);
     POINTER a = *H;
     POINTER b = *A;
     POINTER c = *B;
@@ -176,7 +149,37 @@ void swap(POINTER* H, POINTER* A, POINTER* B)
 
 
 int calc_pri_accending(POINTER first, POINTER second)
+//determines if first priorty is greate that second priority
 {
+
+    assert(first->base_pri);
+    assert(second->base_pri);
     return first->base_pri > second->base_pri;
+}
+
+
+int test_list(POINTER head, int(*calc_pri)(POINTER, POINTER))
+/*Test the contents of the list to see if they are in order. Does not modify the list in any way. */
+{
+    int ret = 1;
+    printf("Start testing the list ...\n ");
+    while (head != NULL && head->link != NULL )
+    {
+        if(calc_pri(head, head->link) == 1) 
+        {
+            ret = 0;
+        }
+        head = head->link;
+    }
+    if (ret  == 1)
+        printf("...The List is sorted\n ");
+    else if (ret == 0)
+        printf("..The List is not sorted\n ");
+    else
+         printf("...The was an error\n ");
+
+       
+    printf("\n");
+    return ret;
 }
 
