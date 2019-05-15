@@ -1,0 +1,85 @@
+(1%)
+
+The interruption is produced by a kernel mechanism called a
+signal
+
+What is a signal?
+• A signal is a one word message, each signal has a numerical
+code
+
+Where do signals come from? 
+• A signal may have three possible sources:
+• users
+• kernel
+• processes 
+
+ How is it handled? 
+• accept the default action (usually death)
+• ignore the signal
+• call a function
+
+How multiple signals
+are handled? 
+•When two or more of the same signal is call the the second is delayed untill the signal handler process is complete.
+
+How does a process send a signal to another process? (1%)
+a procces can use kill to send signals to other proccesses
+• int  kill(pid_t pid, int sig)
+• pid - process ID you want to send a signal to
+• sig - signal you want to send. 
+
+
+#include	<stdio.h>
+#include	<signal.h>
+
+#define	INPUTLEN	100
+
+main(int ac, char *av[])
+{
+	void	inthandler(int);
+	void	quithandler(int);
+	void 	doublehandler(int);
+	char	input[INPUTLEN];
+	int	nchars;
+
+	signal( SIGINT,  doublehandler );		/* set handler */
+	signal( SIGQUIT, doublehandler );		/* set handler */
+
+	do {
+		printf("\nType a message\n");
+		nchars = read(0, input, (INPUTLEN-1));
+		if ( nchars == -1 )
+			perror("read returned an error");
+		else {
+			input[nchars] = '\0';
+			printf("You typed: %s", input);
+		}
+	} 
+	while( strncmp( input , "quit" , 4 ) != 0 );
+}
+
+void inthandler(int s)
+{
+	printf(" Received signal %d .. waiting\n", s );
+	sleep(2);
+	printf("  Leaving inthandler \n");
+}
+
+void quithandler(int s)
+{
+	printf(" Received signal %d .. waiting\n", s );
+	sleep(3);
+	printf("  Leaving quithandler \n");
+}
+
+void doublehandler(int s)
+{
+	if (s == 2)
+	{
+		inthandler(s);
+	}
+	else if(s == 3)
+	{
+		quithandler(s);
+	}
+}
