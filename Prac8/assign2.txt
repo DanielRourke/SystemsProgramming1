@@ -1,0 +1,2 @@
+use wc to count words
+run child one last
