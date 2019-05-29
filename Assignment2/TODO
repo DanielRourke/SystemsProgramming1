@@ -1,0 +1,5 @@
+fork 3 different functions
+fork 1 get user input 10 times and calculate highest
+fork 2 run wc command with param of file name
+fork 3 modify a file with “this is the updated version.” at begin of file
+fork 3 replace al instances of "execute" with run study examine.

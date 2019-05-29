@@ -83,7 +83,7 @@ void pop(POINTER *Top)
     }
     else
     {
-        printf("Empty stack.\n");///////////////error empy or not nulld ?
+        printf("Empty stack.\n");
     }
 }
 
@@ -105,7 +105,7 @@ void delete_stack(POINTER *Top)
 {
     printf("Start deleting the stack...\n");
 
-    while (*Top != NULL)///////////////error empy or not nulld ?
+    while (*Top != NULL)
     {
         pop(Top);
     }
@@ -144,10 +144,9 @@ void sort(POINTER *head, enum order ord)
 
         a =  current->base_pri;
         b =  current->link->base_pri;
-          printf(" a %d b %d,", a,b);
+        printf(" a %d b %d,", a,b);
         if(a > b)
         {
-
             printf(" %d is bigger than %d,", a,b);
             swap(current);
         }
