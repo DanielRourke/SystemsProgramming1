@@ -15,8 +15,8 @@ void main(int argc, char *argv[])
     for(i = 0; i < 3; i++)
 	{
 			
-			if ( (newpid = fork()) == -1 )
-				perror("fork");
+			if ( (newpid = fork()) < 0 )
+				perror("fork error");
 			else if ( newpid == 0 )
 				switch (i)
                 {
@@ -36,6 +36,9 @@ void main(int argc, char *argv[])
 			sleep(1);
 	}
 }
+
+
+
 
 void parent_code(int childpid, int i)
 {
