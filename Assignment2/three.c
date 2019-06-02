@@ -9,19 +9,21 @@
 
 void bad(char *s1, char *s2)
 {
-	fprintf(stderr, "Error: %s ", s1);
+	fprintf(stderr, "Three: Error: %s ", s1);
 	perror(s2);
 	exit(1);
 }
 
 int main(int argc, char *argv[])
 {
+    //validate arguments
 	if (argc != 2)
 	{
 		fprintf(stderr, "usage: %s destination\n", *argv);
 		exit(-1);
 	}
 
+    //declare local variables
 	int in_fd, out_fd;
 	int n_chars;
 	char buf[BUFFERSIZE];
@@ -44,12 +46,11 @@ int main(int argc, char *argv[])
 	while ((n_chars = read(in_fd, car, 1)) > 0)
 	{
 		//add word or punctuation to file
-		if (car[0] == ' ' || car[0] == '\n' || letterCount >= BUFFERSIZE - 1 || car[0] == EOF)
+		if (car[0] == ' ' || car[0] == '\n' || letterCount >= BUFFERSIZE - 1 || car[0] == '.')
 		{
 			//check if it is a word
 			if (letterCount > 0)
 			{
-				// lseek(out_fd, -(letterCount+ 1) ,SEEK_CUR);
 
 				 //replace execute with run
 				if (strncmp(word, "execute", 7) == 0) {
@@ -85,7 +86,6 @@ int main(int argc, char *argv[])
 	}
 
     //close and open file read from
-	printf("closing files");
 	if (close(out_fd) == -1)
 		bad("Error closing files", "");
 
@@ -94,6 +94,8 @@ int main(int argc, char *argv[])
 
 	lseek(in_fd, 0, SEEK_SET);
 	lseek(out_fd, 0, SEEK_SET);
+
+
 
     //insert phrase into start of file
     char insert[28] = "this is the updated version";
@@ -107,10 +109,11 @@ int main(int argc, char *argv[])
 	if (n_chars == -1)
 		bad("Read error from ", "./temp.txt");
 
-	printf("closing files");
+
+
+    //close files
 	if (close(in_fd) == -1 || close(out_fd) == -1)
 		bad("Error closing files", "");
-
 
 
 	exit(0);

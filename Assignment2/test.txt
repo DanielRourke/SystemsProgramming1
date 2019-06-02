@@ -1,1 +1,185 @@
 
+Daniel Rourke 19386993
+
+building instructions:
+
+run these commands
+-bash-4.1$ cc one.c -o one
+-bash-4.1$ cc three.c -o three
+-bash-4.1$ cc main.c -o main
+-bash-4.1$ ./main ./afile.txt ./afile.txt
+
+
+logic / pseudo  code:
+
+
+check user input
+run three programs
+print the Exit values of the programs
+
+
+program one
+    
+    intialise max value
+    loop 10 times
+        get valid input from user
+        compare max value with current value
+            replace if larger
+
+    print maxValue
+    return maxValue
+
+    
+
+program three
+
+    read file1 1 char at a time
+    
+        copying non alpha characters straight to file2
+
+        combine alpha characters into string
+            if string is equal to "execute" or "study"
+                replace with "run" or "examine" respectively
+        copy string to file2
+
+    
+    add Phrase to start of file 1
+
+    copy file 2 to file 1
+
+
+
+
+test plan
+    -check various input fails from user
+    -check works correctly with correct inputs
+
+    -bash-4.1$ ./main
+usage: ./main file1 file2
+-bash-4.1$ ./main 4
+usage: ./main file1 file2
+-bash-4.1$ ./main ./afile.txt
+usage: ./main file1 file2
+-bash-4.1$ ./main ./afile.txt 444
+98 ./afile.txt
+Error: Cannot open  444: No such file or directory
+status: exit=0, sig=0, core=0
+status: exit=1, sig=0, core=0
+
+ Enter a score between 1 and 100: 2
+
+ Enter a score between 1 and 100: 3
+
+ Enter a score between 1 and 100: 4
+
+ Enter a score between 1 and 100: 5
+
+ Enter a score between 1 and 100: 56
+
+ Enter a score between 1 and 100: 7
+
+ Enter a score between 1 and 100: 8
+
+ Enter a score between 1 and 100: 9
+
+ Enter a score between 1 and 100: 9
+
+ Enter a score between 1 and 100: 0
+Invalid Input not a number
+ Enter a score between 1 and 100: 7
+Highest Score is: 56 
+status: exit=56, sig=0, core=0
+-bash-4.1$ ./main ./afile.txt ./afile.txt
+130 ./afile.txt
+status: exit=0, sig=0, core=0
+status: exit=0, sig=0, core=0
+
+ Enter a score between 1 and 100: q
+Invalid Input not a number
+ Enter a score between 1 and 100: 11111111111111111111111111
+score not within bounds
+ Enter a score between 1 and 100: aaaaaaaaaaaaaaaa
+Invalid Input not a number
+ Enter a score between 1 and 100: ssssssssssssss
+Invalid Input not a number
+ Enter a score between 1 and 100: ss
+Invalid Input not a number
+ Enter a score between 1 and 100: s
+Invalid Input not a number
+ Enter a score between 1 and 100: 0
+Invalid Input not a number
+ Enter a score between 1 and 100: 
+Invalid Input not a number
+ Enter a score between 1 and 100: 1
+
+ Enter a score between 1 and 100: 100
+
+ Enter a score between 1 and 100: 55
+
+ Enter a score between 1 and 100: -1
+score not within bounds
+ Enter a score between 1 and 100: 22
+
+ Enter a score between 1 and 100: a22
+Invalid Input not a number
+ Enter a score between 1 and 100: ssss2
+Invalid Input not a number
+ Enter a score between 1 and 100: 11a
+
+ Enter a score between 1 and 100: 234
+score not within bounds
+ Enter a score between 1 and 100: as
+Invalid Input not a number
+ Enter a score between 1 and 100: 2222
+score not within bounds
+ Enter a score between 1 and 100: aaa
+Invalid Input not a number
+ Enter a score between 1 and 100: 22
+
+ Enter a score between 1 and 100: a
+Invalid Input not a number
+ Enter a score between 1 and 100: 2
+
+ Enter a score between 1 and 100: 2
+
+ Enter a score between 1 and 100: 2
+
+ Enter a score between 1 and 100: 2
+Highest Score is: 100 
+status: exit=100, sig=0, core=0
+
+
+
+before::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+This is a test file only. It does execute programs, but does not execute script.
+it can study the logic correctness of the program, but does not study 
+other errors.
+
+
+This is a test file only. It does execute programs, but does not execute script.
+it can study the logic correctness of the program, but does not study 
+other errors.
+
+
+This is a test file only. It does execute programs, but does not execute script.
+it can study the logic correctness of the program, but does not study 
+other errors.
+
+after::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+this is the updated version 
+This is a test file only. It does run programs, but does not run script.
+it can examine the logic correctness of the program, but does not examine 
+other errors.
+
+
+This is a test file only. It does run programs, but does not run script.
+it can examine the logic correctness of the program, but does not examine 
+other errors.
+
+
+This is a test file only. It does run programs, but does not run script.
+it can examine the logic correctness of the program, but does not examine 
+other 
+
+////error with file updated to fix
+

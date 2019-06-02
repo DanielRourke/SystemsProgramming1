@@ -5,6 +5,7 @@
  *     usage: cp1 src dest
  */
 #include        <stdio.h>
+#include        "stdlib.h"
 #include        <unistd.h>
 #include        <fcntl.h>
 
@@ -16,25 +17,21 @@ main(int ac, char *av[])
 {
     int     in_fd, out_fd, n_chars;
     char    buf[BUFFERSIZE];
-                                                /* check args   */
-    if ( ac != 3 ){
-        fprintf( stderr, "usage: %s source destination\n", *av);
-        exit(1);
-    }
-                                                /* open files   */
 
-    if ( (in_fd=open(av[1], O_RDONLY)) == -1 )
-        oops("Cannot open ", av[1]);
+         /* open files   */
 
-    if ( (out_fd=creat( av[2], COPYMODE)) == -1 )
-        oops( "Cannot creat", av[2]);
+    if ( (in_fd=open("afile.1.txt", O_RDONLY)) == -1 )
+        oops("Cannot open ", "afile.1.txt");
+
+    if ( (out_fd=creat( "afile.txt", COPYMODE)) == -1 )
+        oops( "Cannot creat", "afile.txt");
 
                                                 /* copy files   */
 while ( (n_chars = read(in_fd , buf, BUFFERSIZE)) > 0 )
         if ( write( out_fd, buf, n_chars ) != n_chars )
-                oops("Write error to ", av[2]);
+                oops("Write error to ","afile.txt");
         if ( n_chars == -1 )
-                oops("Read error from ", av[1]);
+                oops("Read error from ","afile.1.txt");
 
                                                 /* close files  */
 

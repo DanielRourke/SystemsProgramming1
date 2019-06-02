@@ -6,11 +6,11 @@
 int main(int argc, char *argv[])
 {
     //local variable
-    char buffer[4];
+    char buffer[4096];
     int input;
     int max = 0;
     int i;
-
+    sleep(1);
     //get student scores from user
     for (i = 0; i < studentCount ; i++)
     {
@@ -22,9 +22,10 @@ int main(int argc, char *argv[])
             //validate user input is a number
            if(input = atol(buffer))
            {
+               //validate input is in range
                if(input <= 100 && input > 0){
                     if(input > max){
-                        max = input;
+                        max = input;   
                     }
                }
                else
@@ -32,7 +33,6 @@ int main(int argc, char *argv[])
                     printf("score not within bounds");
                     i--;
                }
-               
 
            }
            
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
         }
            
     }
-
-    printf("%d", max);
+    //Print result
+    printf("Highest Score is: %d \n" ,max);
     exit(max);
 }
